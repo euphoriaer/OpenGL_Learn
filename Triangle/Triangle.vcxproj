@@ -127,7 +127,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="LoadShaders.cpp" />
     <ClCompile Include="Triangle.cpp" />
+    <ClCompile Include="vgl.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="LoadShaders.h" />
+    <ClInclude Include="vgl.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
