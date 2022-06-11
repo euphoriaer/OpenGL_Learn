@@ -8,10 +8,10 @@
 int main()
 {
 	glfwInit();
-   	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);//opengl版本
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);//opengl版本
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);//opengl 管线 核心模式
-	
+
 	GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
 	if (window == NULL)
 	{
@@ -29,16 +29,49 @@ int main()
 
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);//窗口改变回调，第一次被创建时调用
 
+	//Vertex Shader
+	vertexShader=glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+	glCompileShader(vertexShader);
+
+	//Fragment Shader
+	fragmentShader=glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+	glCompileShader(fragmentShader);
+
+	//Link
+	shaderProgram = glCreateProgram();
+	glAttachShader(shaderProgram, vertexShader);
+	glAttachShader(shaderProgram, fragmentShader);
+	glLinkProgram(shaderProgram);
+
+	//VAO Vertex Array Object
+	unsigned	int	VAO;
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+
+	//VBO Vertex Buffer Object
+	unsigned	int	VBO;
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	//Load VAO
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
 	while (!glfwWindowShouldClose(window))
 	{
 		//input
 		processInput(window);
 
-		//渲染指令
-
-
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		//渲染指令
+		glUseProgram(shaderProgram);
+		glBindVertexArray(VAO);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -62,7 +95,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 // 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
 // 调试程序: F5 或调试 >“开始调试”菜单
 
-// 入门使用技巧: 
+// 入门使用技巧:
 //   1. 使用解决方案资源管理器窗口添加/管理文件
 //   2. 使用团队资源管理器窗口连接到源代码管理
 //   3. 使用输出窗口查看生成输出和其他消息
