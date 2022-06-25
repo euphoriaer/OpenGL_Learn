@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include <glad/glad.h>//¹ÜÀíopengl º¯ÊıÖ¸Õë£¬ËùÒÔÒªÔÚÈÎºÎopengl ¿âÖ®Ç°ÒıÓÃ
+#include <glad/glad.h>//ç®¡ç†opengl å‡½æ•°æŒ‡é’ˆï¼Œæ‰€ä»¥è¦åœ¨ä»»ä½•opengl åº“ä¹‹å‰å¼•ç”¨
 #include <GLFW/glfw3.h>
 using namespace std;
 
@@ -33,7 +33,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 		vertexString = vertexSStream.str();
 		fragmentString = fragmentSStream.str();
 
-		//String -> char*  //C++·ç¸ñ×Ö·û´®×ª C·ç¸ñ×Ö·û´®
+		//String -> char*  //C++é£æ ¼å­—ç¬¦ä¸²è½¬ Cé£æ ¼å­—ç¬¦ä¸²
 		vertexSource = vertexString.c_str();
 		fragmentSource = fragmentString.c_str();
 
@@ -49,7 +49,6 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 		glShaderSource(fragment, 1, &fragmentSource, NULL);
 		glCompileShader(fragment);
 		CheckCompilerErrors(fragment, "fragment");
-
 
 		//shader program
 		ID = glCreateProgram();
@@ -87,7 +86,6 @@ void Shader::CheckCompilerErrors(unsigned int id, std::string type)
 			glGetShaderInfoLog(id, 512, NULL, infoLog);
 			cout << "Shader compile Error:" << infoLog << endl;
 		}
-
 	}
 	else
 	{
@@ -98,5 +96,4 @@ void Shader::CheckCompilerErrors(unsigned int id, std::string type)
 			cout << "Shader Link Error:" << infoLog << endl;
 		}
 	}
-
 }
