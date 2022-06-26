@@ -6,6 +6,9 @@
 
 #include "main.h"
 #include "Shader.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 int main()
 {
@@ -103,10 +106,15 @@ int main()
         std::cout << "load image failed" << std::endl;
     }
     stbi_image_free(data2);
-    
+
+    //Trans
+    // trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.5f));//缩放
     while (!glfwWindowShouldClose(window))
     {
-        //input
+        glm::mat4 trans = glm::mat4(1.0f);
+        trans = glm::translate(trans, glm::vec3(0.5, -0.5, 0)); //位移
+        trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0, 0, 1.0f));//旋转
+            //input
         processInput(window);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -121,10 +129,10 @@ int main()
 
         shader->Use();
         //激活贴图
-        
+
         glUniform1i(glGetUniformLocation(shader->ID, "ourTexture"), 0);
         glUniform1i(glGetUniformLocation(shader->ID, "ourFace"), 3);
-         
+        glUniformMatrix4fv(glGetUniformLocation(shader->ID, "transform"), 1, GL_FALSE, glm::value_ptr(trans));
         //索引缓冲绘制
         //1.bind Buffer
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
