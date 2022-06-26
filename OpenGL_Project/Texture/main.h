@@ -1,10 +1,21 @@
 #pragma once
 #define STB_IMAGE_IMPLEMENTATION
+#include <iostream>
+#include <glad/glad.h>//管理opengl 函数指针，所以要在任何opengl 库之前引用
+#include <GLFW/glfw3.h>
+
 #include "stb_image.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+#include "Shader.h"
+#include "Camera.h"
 int main();
+void mouse_Callback(GLFWwindow* window, double Xpos, double yPos);
 void processInput(GLFWwindow* window);
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 //float vertices[] = {
@@ -14,7 +25,6 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 //   -0.5f, -0.5f, 0.0f,     1.0f,0,0,            0.0f,0.0f,
 //   -0.5f,  0.5f, 0.0f,     0.1f,0.2f,0.8f,      0.0f,1.0f
 //};
-
 
 float vertices[] = {
     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -59,7 +69,12 @@ float vertices[] = {
     -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
     -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 };
-
+//Camera
+   //Camera camera(glm::vec3(0, 0, 3.0f), glm::vec3(0, 0, 0), glm::vec3(0, 1.0f, 0));
+Camera camera(glm::vec3(0, 0, 3.0f), glm::radians(15.0f), glm::radians(180.0f), glm::vec3(0, 1.0f, 0));
+float mouseLastX;
+float mouseLastY;
+bool firstMouse = true;
 
 glm::vec3 cubePositions[] = {
   glm::vec3(0.0f,  0.0f,  0.0f),
@@ -78,6 +93,4 @@ unsigned    int indices[] =
 {
    0,1,2,
    2,3,0
-
 };
-

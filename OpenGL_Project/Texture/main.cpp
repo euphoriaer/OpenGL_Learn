@@ -1,14 +1,7 @@
 // HelloWindows.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
 //
-#include <iostream>
-#include <glad/glad.h>//管理opengl 函数指针，所以要在任何opengl 库之前引用
-#include <GLFW/glfw3.h>
-
 #include "main.h"
-#include "Shader.h"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include "Camera.h"
 
 int main()
 {
@@ -16,7 +9,7 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);//opengl版本
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);//opengl 管线 核心模式
-
+    //OpenWindows
     GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
     if (window == NULL)
     {
@@ -25,6 +18,8 @@ int main()
         return -1;
     }
     glfwMakeContextCurrent(window);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);//隐藏鼠标
+    glfwSetCursorPosCallback(window, mouse_Callback);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -109,15 +104,15 @@ int main()
 
     //Trans
     glm::mat4 trans = glm::mat4(1.0f);
-    //trans = glm::translate(trans, glm::vec3(0.5, -0.5, 0)); //位移
-    //trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0, 0, 1.0f));//旋转
-    // trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.5f));//缩放
 
     //mvp变换
     glm::mat4 modelMat = glm::mat4(1.0f);
     modelMat = glm::rotate(modelMat, glm::radians(-55.0f), glm::vec3(1.0f, 0, 0));
+
     glm::mat4 viewMat = glm::mat4(1.0f);
-    viewMat = glm::translate(viewMat, glm::vec3(0, 0, -3.0f));
+    //viewMat = glm::translate(viewMat, glm::vec3(0, 0, -3.0f));
+    //viewMat = camera.GetViewMatrix();
+
     glm::mat4 projectMat = glm::mat4(1.0f);
     projectMat = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
     while (!glfwWindowShouldClose(window))
@@ -135,6 +130,8 @@ int main()
         glBindTexture(GL_TEXTURE_2D, TexbufferB);
         glBindVertexArray(VAO);
 
+        //更新view
+        viewMat = camera.GetViewMatrix();
         //绘制多个物体
         for (size_t i = 0; i < 10; i++)
         {
@@ -166,12 +163,57 @@ int main()
     return 0;
 }
 
+void mouse_Callback(GLFWwindow* window, double xPos, double yPos)
+{
+    if (firstMouse)
+    {
+        mouseLastX = xPos;
+        mouseLastY = yPos;
+        firstMouse = false;
+    }
+    float deltaX, deltaY;
+
+    deltaX = xPos - mouseLastX;
+    deltaY = yPos - mouseLastY;
+    mouseLastX = xPos;
+    mouseLastY = yPos;
+    std::cout << deltaX << std::endl;
+    std::cout << deltaY << std::endl;
+    camera.ProcessMouseMovement(deltaX, deltaY);
+}
+
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 // ---------------------------------------------------------------------------------------------------------
 void processInput(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+    //相机前后移动
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    {
+        camera.cameraTransform.x = 1.0f;
+    }
+    else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    {
+        camera.cameraTransform.x = -1.0f;
+    }
+    else
+    {
+        camera.cameraTransform.x = 0.0f;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)//相机左右移动
+    {
+        camera.cameraTransform.y = 1.0f;
+    }
+    else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    {
+        camera.cameraTransform.y = -1.0f;
+    }
+    else
+    {
+        camera.cameraTransform.y = 0.0f;
+    }
 }
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
