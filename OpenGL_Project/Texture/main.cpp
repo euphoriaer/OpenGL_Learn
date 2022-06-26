@@ -153,6 +153,7 @@ int main()
             //1.bind Buffer
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
             //2.Draw
+            //error Batch ,将所有顶点在外部变换，然后一次传入，只绘制一次
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
 
