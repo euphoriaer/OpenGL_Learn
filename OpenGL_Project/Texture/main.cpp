@@ -36,7 +36,7 @@ int main()
     ////背面剔除
     //glEnable(GL_CULL_FACE);
     //glCullFace(GL_BACK);
-
+    glEnable(GL_DEPTH_TEST);//深度测试
     Shader* shader = new Shader("vertexSource.vert", "fragmentSource.frag");
 
     //VAO Vertex Array Object
@@ -57,15 +57,15 @@ int main()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);//BindData
 
     //位置属性 Gluint =》shader layout
-    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(3);//启用 顶点属性位置
 
-    //顶点颜色
-    glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(4);
+    ////顶点颜色
+    //glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+    //glEnableVertexAttribArray(4);
 
     //uv
-    glVertexAttribPointer(5, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glVertexAttribPointer(5, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(5);
 
     //TextureA
@@ -108,17 +108,25 @@ int main()
     stbi_image_free(data2);
 
     //Trans
+    glm::mat4 trans = glm::mat4(1.0f);
+    //trans = glm::translate(trans, glm::vec3(0.5, -0.5, 0)); //位移
+    //trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0, 0, 1.0f));//旋转
     // trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.5f));//缩放
+
+    //mvp变换
+    glm::mat4 modelMat = glm::mat4(1.0f);
+    modelMat = glm::rotate(modelMat, glm::radians(-55.0f), glm::vec3(1.0f, 0, 0));
+    glm::mat4 viewMat = glm::mat4(1.0f);
+    viewMat = glm::translate(viewMat, glm::vec3(0, 0, -3.0f));
+    glm::mat4 projectMat = glm::mat4(1.0f);
+    projectMat = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
     while (!glfwWindowShouldClose(window))
     {
-        glm::mat4 trans = glm::mat4(1.0f);
-        trans = glm::translate(trans, glm::vec3(0.5, -0.5, 0)); //位移
-        trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0, 0, 1.0f));//旋转
-            //input
+        //input
         processInput(window);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         //渲染指令
         glActiveTexture(GL_TEXTURE0);//激活0号贴图位置
@@ -127,17 +135,28 @@ int main()
         glBindTexture(GL_TEXTURE_2D, TexbufferB);
         glBindVertexArray(VAO);
 
-        shader->Use();
-        //激活贴图
+        //绘制多个物体
+        for (size_t i = 0; i < 10; i++)
+        {
+            glm::mat4 modelMat2 = glm::mat4(1.0f);
+            modelMat2 = glm::translate(modelMat2, cubePositions[i]);
+            shader->Use();
+            //激活贴图
 
-        glUniform1i(glGetUniformLocation(shader->ID, "ourTexture"), 0);
-        glUniform1i(glGetUniformLocation(shader->ID, "ourFace"), 3);
-        glUniformMatrix4fv(glGetUniformLocation(shader->ID, "transform"), 1, GL_FALSE, glm::value_ptr(trans));
-        //索引缓冲绘制
-        //1.bind Buffer
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        //2.Draw
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            glUniform1i(glGetUniformLocation(shader->ID, "ourTexture"), 0);
+            glUniform1i(glGetUniformLocation(shader->ID, "ourFace"), 3);
+            //glUniformMatrix4fv(glGetUniformLocation(shader->ID, "transform"), 1, GL_FALSE, glm::value_ptr(trans));
+            glUniformMatrix4fv(glGetUniformLocation(shader->ID, "modelMat"), 1, GL_FALSE, glm::value_ptr(modelMat2));
+            glUniformMatrix4fv(glGetUniformLocation(shader->ID, "viewMat"), 1, GL_FALSE, glm::value_ptr(viewMat));
+            glUniformMatrix4fv(glGetUniformLocation(shader->ID, "projectMat"), 1, GL_FALSE, glm::value_ptr(projectMat));
+            //索引缓冲绘制
+            //1.bind Buffer
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+            //2.Draw
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
+
+        //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
