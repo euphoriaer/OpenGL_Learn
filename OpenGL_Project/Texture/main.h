@@ -12,6 +12,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+//https://github.com/bkaradzic/bgfx Package Library
+
 #include "Shader.h"
 #include "Camera.h"
 int main();
