@@ -21,10 +21,10 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{2b9ffdf2-b1f6-4360-988e-63cad0f85c7a}</ProjectGuid>
-    <RootNamespace>HelloWindows</RootNamespace>
+    <ProjectGuid>{7b796197-444a-4f73-98b7-eb64a3c18bff}</ProjectGuid>
+    <RootNamespace>Light</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>01.HelloWindows</ProjectName>
+    <ProjectName>04.Light</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -128,10 +128,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="HelloWindows.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="HelloWindows.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
