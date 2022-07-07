@@ -85,6 +85,7 @@ void Shader::CheckCompilerErrors(unsigned int id, std::string type)
         {
             glGetShaderInfoLog(id, 512, NULL, infoLog);
             cout << "Shader compile Error:" << infoLog << endl;
+
         }
     }
     else

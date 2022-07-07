@@ -22,6 +22,7 @@ unsigned   int LoadImageToGPU(const char* filename, GLint internalFormat, GLint 
     {
         std::cout << "load image failed" << std::endl;
     }
+
     stbi_image_free(data2);
     return TexBuffer;
 }
