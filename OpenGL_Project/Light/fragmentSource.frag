@@ -12,5 +12,5 @@ void main()
 {
    //FragColor = vertexcolor;
    //FragColor=texture(ourTexture,TexCoord)*texture(ourFace,TexCoord);
-   FragColor=vec4(objColor*ambientColor,1.0);
+   FragColor=vec4(objColor*ambientColor,1.0)*texture(ourTexture,TexCoord)*texture(ourFace,TexCoord);
 }
