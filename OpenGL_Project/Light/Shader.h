@@ -1,6 +1,12 @@
 #pragma once
-
 #include <string>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class Shader
 {
@@ -17,7 +23,8 @@ public:
     /// </summary>
     unsigned int	 ID;//Shader PorgramID;
     void Use();
-
+    void SetUniform3f(const char* paramNameString, glm::vec3 param);
+    void SetUniform1f(const char* paramNameString, float param);
 private:
     void	CheckCompilerErrors(unsigned int ID, std::string type);
 };

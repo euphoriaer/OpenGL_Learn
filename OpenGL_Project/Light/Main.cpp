@@ -2,6 +2,7 @@
 //
 #include "main.h"
 #include "Camera.h"
+#include "Material.h"
 
 unsigned   int LoadImageToGPU(const char* filename, GLint internalFormat, GLint Format, int textureSlot)
 {
@@ -59,6 +60,12 @@ int main()
 #pragma region Shader
     Shader* shader = new Shader("vertexSource.vert", "fragmentSource.frag");
 #pragma endregion
+
+    Material* material = new  Material(shader,
+        glm::vec3(0, 0, 1.0f),
+        glm::vec3(0, 1, 0),
+        glm::vec3(1.0f, 1.0f, 1.0f),
+        32.0f);
 
 #pragma region Init and Load MOdels To VAO,VBO
     //VAO Vertex Array Object
@@ -150,6 +157,17 @@ int main()
             glUniform3f(glGetUniformLocation(shader->ID, "lightPos"), 10.0f, 10.0f, -5.0f);
             glUniform3f(glGetUniformLocation(shader->ID, "lightColor"),1.0f,1.0f,1.0f);
             glUniform3f(glGetUniformLocation(shader->ID, "cameraPos"), camera.Position.x,camera.Position.y,camera.Position.z);
+
+            material->shader->SetUniform3f("material.ambiend", material->ambient);
+            material->shader->SetUniform3f("material.diffuse", material->diffuse);
+            material->shader->SetUniform3f("material.specular", material->specular);
+            material->shader->SetUniform1f("material.shininess", material->shininess);
+
+            /*glUniform3f(glGetUniformLocation(shader->ID, "material.ambiend"), 1.0f, 1.0f, 1.0f);
+            glUniform3f(glGetUniformLocation(shader->ID, "material.diffuse"), 0, 0, 1.0f);
+            glUniform3f(glGetUniformLocation(shader->ID, "material.specular"), 0, 1, 0);
+            glUniform1f(glGetUniformLocation(shader->ID, "material.shininess"), 32.0f);*/
+
             
             //Set MOdel
             glBindVertexArray(VAO);

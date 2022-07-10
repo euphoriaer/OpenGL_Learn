@@ -1,7 +1,7 @@
 #version 330 core
 layout (location = 3) in vec3 aPos;
-
 layout (location = 9) in vec3 aNormal;
+
 
 uniform mat4 modelMat;
 uniform mat4 viewMat;
