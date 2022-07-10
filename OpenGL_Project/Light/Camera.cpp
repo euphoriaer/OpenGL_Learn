@@ -42,9 +42,11 @@ void Camera::UpdateCameraVectors()
     Forward.y = glm::sin(Pitch);
     Forward.z = glm::cos(Pitch) * glm::cos(Yaw);
 
+    //OpenGl 右手，三指,大拇指右侧，与食指forward cross,才是向上
     Right = glm::normalize(glm::cross(Forward, WorldUp));
-    Up = glm::normalize(glm::cross(Forward, Right));
+    Up = glm::normalize(glm::cross(Right, Forward));
 
-    Position += Forward * cameraTransform.x * 0.1f;//前后移动
-    Position -= Right * cameraTransform.y * 0.1f;//左右移动
+    Position += Forward * cameraTranslate.x * 0.1f;//前后移动
+    Position -= Right * cameraTranslate.y * 0.1f;//左右移动
+    Position += Up * cameraTranslate.z * 0.1f;//上下移动
 }

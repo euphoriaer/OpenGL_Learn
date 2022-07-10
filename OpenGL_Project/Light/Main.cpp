@@ -146,10 +146,11 @@ int main()
             glUniformMatrix4fv(glGetUniformLocation(shader->ID, "viewMat"), 1, GL_FALSE, glm::value_ptr(viewMat));
             glUniformMatrix4fv(glGetUniformLocation(shader->ID, "projectMat"), 1, GL_FALSE, glm::value_ptr(projectMat));
             glUniform3f(glGetUniformLocation(shader->ID, "objColor"), 1.0f, 0.5f, 0.31f);
-            glUniform3f(glGetUniformLocation(shader->ID, "ambientColor"), 1.0f, 1.0f, 1.0f);
-            glUniform3f(glGetUniformLocation(shader->ID, "lightPos"), 10.0f, 10.0f, 5.0f);
-            glUniform3f(glGetUniformLocation(shader->ID, "lightColor"), 1.0f, 1.0f, 1.0f);
-
+            glUniform3f(glGetUniformLocation(shader->ID, "ambientColor"), 0.2f, 0.1f, 0.1f);
+            glUniform3f(glGetUniformLocation(shader->ID, "lightPos"), 10.0f, 10.0f, -5.0f);
+            glUniform3f(glGetUniformLocation(shader->ID, "lightColor"),1.0f,1.0f,1.0f);
+            glUniform3f(glGetUniformLocation(shader->ID, "cameraPos"), camera.Position.x,camera.Position.y,camera.Position.z);
+            
             //Set MOdel
             glBindVertexArray(VAO);
             //Draw Call  ,Batch 优化,将所有顶点在外部变换，然后一次传入，只绘制一次减少DrawCall
@@ -192,29 +193,45 @@ void processInput(GLFWwindow* window)
     //相机前后移动
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     {
-        camera.cameraTransform.x = 1.0f;
+        camera.cameraTranslate.x = 1.0f;
     }
     else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
     {
-        camera.cameraTransform.x = -1.0f;
+        camera.cameraTranslate.x = -1.0f;
     }
     else
     {
-        camera.cameraTransform.x = 0.0f;
+        camera.cameraTranslate.x = 0.0f;
     }
 
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)//相机左右移动
+    //相机左右移动
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
     {
-        camera.cameraTransform.y = 1.0f;
+        camera.cameraTranslate.y = 1.0f;
     }
     else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
     {
-        camera.cameraTransform.y = -1.0f;
+        camera.cameraTranslate.y = -1.0f;
     }
     else
     {
-        camera.cameraTransform.y = 0.0f;
+        camera.cameraTranslate.y = 0.0f;
     }
+
+    //相机上下移动
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+    {
+        camera.cameraTranslate.z = 1.0f;
+    }
+    else if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+    {
+        camera.cameraTranslate.z = -1.0f;
+    }
+    else
+    {
+        camera.cameraTranslate.z = 0.0f;
+    }
+
 }
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {

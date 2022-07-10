@@ -18,11 +18,11 @@ public:
     float CameraSpeedX = 0.001f;
     float CameraSpeedY = 0.001f;
     /// <summary>
-    ///  相机移动，X 前后，Y 左右
+    ///  相机移动，X 前后，Y 左右 ,Z上下
     /// </summary>
     /// <param name="deltaX"></param>
     /// <param name="deltaY"></param>
-    glm::vec2 cameraTransform;
+    glm::vec3 cameraTranslate;
 
     void ProcessMouseMovement(float deltaX, float deltaY);
 private:
