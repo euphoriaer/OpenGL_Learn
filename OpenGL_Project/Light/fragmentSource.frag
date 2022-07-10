@@ -1,16 +1,18 @@
 #version 330 core
-out vec4 FragColor;
-in vec4 vertexcolor;
-in vec2 TexCoord;
+in vec3 Normal;
+in vec3 FragPos;
 
-uniform sampler2D ourTexture;
-uniform sampler2D ourFace;
 uniform vec3 ambientColor;//环境色
 uniform vec3 objColor;
+uniform vec3 lightPos;
+uniform vec3 lightColor;
 
+out vec4 FragColor;
 void main() 
 {
-   //FragColor = vertexcolor;
-   //FragColor=texture(ourTexture,TexCoord)*texture(ourFace,TexCoord);
-   FragColor=vec4(objColor*ambientColor,1.0)*texture(ourTexture,TexCoord)*texture(ourFace,TexCoord);
+   vec3 lightDir=normalize(lightPos-FragPos);
+
+   vec3 diffuse=dot(lightDir,Normal)*lightColor;
+
+   FragColor=vec4((diffuse+ambientColor)*objColor,1.0);
 }

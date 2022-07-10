@@ -72,13 +72,18 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);//BindData
 
-    //位置属性 Gluint =》shader layout
-    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    ////位置属性 Gluint =》shader layout
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(3);//启用 顶点属性位置
 
-    //uv
-    glVertexAttribPointer(5, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(5);
+    ////uv
+    //glVertexAttribPointer(5, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    //glEnableVertexAttribArray(5);
+
+    //Normal
+    
+    glVertexAttribPointer(9, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(9);
 #pragma endregion
 
 #pragma region Init and Load Texture
@@ -110,12 +115,9 @@ int main()
     {
         //input
         processInput(window);
-
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        //BackGround
+        glClearColor(0,0,0,0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-       
-        
 
         //更新view
         viewMat = camera.GetViewMatrix();
@@ -145,6 +147,8 @@ int main()
             glUniformMatrix4fv(glGetUniformLocation(shader->ID, "projectMat"), 1, GL_FALSE, glm::value_ptr(projectMat));
             glUniform3f(glGetUniformLocation(shader->ID, "objColor"), 1.0f, 0.5f, 0.31f);
             glUniform3f(glGetUniformLocation(shader->ID, "ambientColor"), 1.0f, 1.0f, 1.0f);
+            glUniform3f(glGetUniformLocation(shader->ID, "lightPos"), 10.0f, 10.0f, 5.0f);
+            glUniform3f(glGetUniformLocation(shader->ID, "lightColor"), 1.0f, 1.0f, 1.0f);
 
             //Set MOdel
             glBindVertexArray(VAO);
