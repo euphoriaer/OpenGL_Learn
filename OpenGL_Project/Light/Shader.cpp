@@ -43,7 +43,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
         vertex = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vertex, 1, &vertexSource, NULL);
         glCompileShader(vertex);
-        CheckCompilerErrors(vertex, "vertex");
+
 
         //fragment
         fragment = glCreateShader(GL_FRAGMENT_SHADER);
@@ -82,6 +82,11 @@ void Shader::SetUniform3f(const char* paramNameString, glm::vec3 param)
 void Shader::SetUniform1f(const char* paramNameString, float param)
 {
     glUniform1f(glGetUniformLocation(ID, paramNameString), param);
+}
+
+void Shader::SetUniform1i(const char* parmaNameString, int slot)
+{
+    glUniform1i(glGetUniformLocation(ID, parmaNameString), slot);
 }
 
 void Shader::CheckCompilerErrors(unsigned int id, std::string type)

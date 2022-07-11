@@ -1,16 +1,18 @@
 #version 330 core
 in vec3 Normal;
 in vec3 FragPos;
+in vec2 Texcoord;
 
 struct Material
 {
  vec3 ambiend;
- vec3 diffuse;
+ sampler2D diffuse;
  vec3 specular;
  float shininess;
 };
 
 uniform Material material;
+
 uniform vec3 objColor;
 uniform vec3 ambientColor;
 uniform vec3 lightPos;
@@ -28,7 +30,8 @@ void main()
 
    vec3 speclar=material.specular * (pow(max(speclarAmount,0),material.shininess)) * lightColor;
 
-   vec3 diffuse=material.diffuse * max(dot(lightDir,Normal),0 ) * lightColor;
+   //vec3 diffuse=material.diffuse * max(dot(lightDir,Normal),0 ) * lightColor;
+   vec3 diffuse=texture(material.diffuse,Texcoord).rgb;
 
    vec3 anbient=material.ambiend*ambientColor;
 

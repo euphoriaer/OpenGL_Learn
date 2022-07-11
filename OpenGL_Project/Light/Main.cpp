@@ -8,7 +8,7 @@ unsigned   int LoadImageToGPU(const char* filename, GLint internalFormat, GLint 
 {
     unsigned int    TexBuffer;
     glGenTextures(1, &TexBuffer);
-    glActiveTexture(GL_TEXTURE0 + textureSlot);//激活3号贴图位置
+    glActiveTexture(GL_TEXTURE0 + textureSlot);//激活X号贴图位置
     glBindTexture(GL_TEXTURE_2D, TexBuffer);
 
     int width, height, nrChannel;
@@ -62,7 +62,7 @@ int main()
 #pragma endregion
 
     Material* material = new  Material(shader,
-        glm::vec3(0, 0, 1.0f),
+        LoadImageToGPU("container.jpg", GL_RGB, GL_RGB, 0),
         glm::vec3(0, 1, 0),
         glm::vec3(1.0f, 1.0f, 1.0f),
         32.0f);
@@ -80,26 +80,20 @@ int main()
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);//BindData
 
     ////位置属性 Gluint =》shader layout
-    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(3);//启用 顶点属性位置
 
-    ////uv
-    //glVertexAttribPointer(5, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-    //glEnableVertexAttribArray(5);
+    //uv
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
 
     //Normal
-    
-    glVertexAttribPointer(9, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glVertexAttribPointer(9, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(9);
 #pragma endregion
 
 #pragma region Init and Load Texture
-    //TextureA
-    unsigned   int TexbufferA;
-    TexbufferA = LoadImageToGPU("container.jpg", GL_RGB, GL_RGB, 0);
-
-    unsigned   int TexbufferB;
-    TexbufferB = LoadImageToGPU("awesomeface.png", GL_RGBA, GL_RGBA, 0);
+ 
 #pragma endregion
 
 #pragma region Prepare MVP matrices
@@ -141,13 +135,13 @@ int main()
 
             //激活贴图
              //渲染指令
-            glActiveTexture(GL_TEXTURE0);//激活0号贴图位置
-            glBindTexture(GL_TEXTURE_2D, TexbufferA);
-            glActiveTexture(GL_TEXTURE3);//激活3号贴图位置
-            glBindTexture(GL_TEXTURE_2D, TexbufferB);
+            //glActiveTexture(GL_TEXTURE0);//激活0号贴图位置
+            //glBindTexture(GL_TEXTURE_2D, TexbufferA);
+            //glActiveTexture(GL_TEXTURE3);//激活3号贴图位置
+            //glBindTexture(GL_TEXTURE_2D, TexbufferB);
 
-            glUniform1i(glGetUniformLocation(shader->ID, "ourTexture"), 0);
-            glUniform1i(glGetUniformLocation(shader->ID, "ourFace"), 3);
+            /*glUniform1i(glGetUniformLocation(shader->ID, "ourTexture"), 0);
+            glUniform1i(glGetUniformLocation(shader->ID, "ourFace"), 3);*/
            
             glUniformMatrix4fv(glGetUniformLocation(shader->ID, "modelMat"), 1, GL_FALSE, glm::value_ptr(modelMat));
             glUniformMatrix4fv(glGetUniformLocation(shader->ID, "viewMat"), 1, GL_FALSE, glm::value_ptr(viewMat));
@@ -159,16 +153,10 @@ int main()
             glUniform3f(glGetUniformLocation(shader->ID, "cameraPos"), camera.Position.x,camera.Position.y,camera.Position.z);
 
             material->shader->SetUniform3f("material.ambiend", material->ambient);
-            material->shader->SetUniform3f("material.diffuse", material->diffuse);
+            material->shader->SetUniform1i("material.diffuse", 0);
             material->shader->SetUniform3f("material.specular", material->specular);
             material->shader->SetUniform1f("material.shininess", material->shininess);
 
-            /*glUniform3f(glGetUniformLocation(shader->ID, "material.ambiend"), 1.0f, 1.0f, 1.0f);
-            glUniform3f(glGetUniformLocation(shader->ID, "material.diffuse"), 0, 0, 1.0f);
-            glUniform3f(glGetUniformLocation(shader->ID, "material.specular"), 0, 1, 0);
-            glUniform1f(glGetUniformLocation(shader->ID, "material.shininess"), 32.0f);*/
-
-            
             //Set MOdel
             glBindVertexArray(VAO);
             //Draw Call  ,Batch 优化,将所有顶点在外部变换，然后一次传入，只绘制一次减少DrawCall
