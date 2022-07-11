@@ -62,7 +62,7 @@ int main()
 #pragma endregion
 
     Material* material = new  Material(shader,
-        LoadImageToGPU("container.jpg", GL_RGB, GL_RGB, 0),
+        LoadImageToGPU("awesomefacezwe.png", GL_RGBA, GL_RGBA, 1),
         glm::vec3(0, 1, 0),
         glm::vec3(1.0f, 1.0f, 1.0f),
         32.0f);
@@ -105,8 +105,6 @@ int main()
     modelMat = glm::rotate(modelMat, glm::radians(-55.0f), glm::vec3(1.0f, 0, 0));
 
     glm::mat4 viewMat = glm::mat4(1.0f);
-    //viewMat = glm::translate(viewMat, glm::vec3(0, 0, -3.0f));
-    //viewMat = camera.GetViewMatrix();
 
     glm::mat4 projectMat = glm::mat4(1.0f);
     projectMat = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
@@ -134,14 +132,7 @@ int main()
             //Set Project matrix
 
             //激活贴图
-             //渲染指令
-            //glActiveTexture(GL_TEXTURE0);//激活0号贴图位置
-            //glBindTexture(GL_TEXTURE_2D, TexbufferA);
-            //glActiveTexture(GL_TEXTURE3);//激活3号贴图位置
-            //glBindTexture(GL_TEXTURE_2D, TexbufferB);
-
-            /*glUniform1i(glGetUniformLocation(shader->ID, "ourTexture"), 0);
-            glUniform1i(glGetUniformLocation(shader->ID, "ourFace"), 3);*/
+           
            
             glUniformMatrix4fv(glGetUniformLocation(shader->ID, "modelMat"), 1, GL_FALSE, glm::value_ptr(modelMat));
             glUniformMatrix4fv(glGetUniformLocation(shader->ID, "viewMat"), 1, GL_FALSE, glm::value_ptr(viewMat));
@@ -153,7 +144,7 @@ int main()
             glUniform3f(glGetUniformLocation(shader->ID, "cameraPos"), camera.Position.x,camera.Position.y,camera.Position.z);
 
             material->shader->SetUniform3f("material.ambiend", material->ambient);
-            material->shader->SetUniform1i("material.diffuse", 0);
+            material->shader->SetUniform1i("material.diffuse", material->diffuse);
             material->shader->SetUniform3f("material.specular", material->specular);
             material->shader->SetUniform1f("material.shininess", material->shininess);
 
