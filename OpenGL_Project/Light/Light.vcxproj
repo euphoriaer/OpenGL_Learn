@@ -144,11 +144,10 @@
     <None Include="vertexSource.vert" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="awesomefacezwe.png" />
     <Image Include="awesomeface.png" />
     <Image Include="container.jpg" />
+    <Image Include="container2.png" />
     <Image Include="myself.jpg" />
-    <Image Include="Test.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

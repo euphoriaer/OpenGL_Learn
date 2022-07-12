@@ -62,7 +62,7 @@ int main()
 #pragma endregion
 
     Material* material = new  Material(shader,
-        LoadImageToGPU("awesomefacezwe.png", GL_RGBA, GL_RGBA, 1),
+        LoadImageToGPU("container2.png", GL_RGBA, GL_RGBA, 1),
         glm::vec3(0, 1, 0),
         glm::vec3(1.0f, 1.0f, 1.0f),
         32.0f);
@@ -137,8 +137,8 @@ int main()
             glUniformMatrix4fv(glGetUniformLocation(shader->ID, "modelMat"), 1, GL_FALSE, glm::value_ptr(modelMat));
             glUniformMatrix4fv(glGetUniformLocation(shader->ID, "viewMat"), 1, GL_FALSE, glm::value_ptr(viewMat));
             glUniformMatrix4fv(glGetUniformLocation(shader->ID, "projectMat"), 1, GL_FALSE, glm::value_ptr(projectMat));
-            glUniform3f(glGetUniformLocation(shader->ID, "objColor"), 1.0f, 0.5f, 0.31f);
-            glUniform3f(glGetUniformLocation(shader->ID, "ambientColor"), 0.2f, 0.1f, 0.1f);
+            glUniform3f(glGetUniformLocation(shader->ID, "objColor"), 1.0f, 1.0f, 1.0f);
+            glUniform3f(glGetUniformLocation(shader->ID, "ambientColor"), 0.3f, 0.3f, 0.3f);
             glUniform3f(glGetUniformLocation(shader->ID, "lightPos"), 10.0f, 10.0f, -5.0f);
             glUniform3f(glGetUniformLocation(shader->ID, "lightColor"),1.0f,1.0f,1.0f);
             glUniform3f(glGetUniformLocation(shader->ID, "cameraPos"), camera.Position.x,camera.Position.y,camera.Position.z);

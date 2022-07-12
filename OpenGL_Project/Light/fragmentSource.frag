@@ -30,10 +30,10 @@ void main()
 
    vec3 speclar=material.specular * (pow(max(speclarAmount,0),material.shininess)) * lightColor;
 
-   //vec3 diffuse=material.diffuse * max(dot(lightDir,Normal),0 ) * lightColor;
-   vec3 diffuse=texture(material.diffuse,Texcoord).xyz;
+   vec3 diffuse=texture(material.diffuse,Texcoord).xyz * max(dot(lightDir,Normal),0 ) * lightColor;
+   //vec3 diffuse=texture(material.diffuse,Texcoord).xyz;
 
-   vec3 anbient=material.ambiend*ambientColor;
+   vec3 anbient=texture(material.diffuse,Texcoord).xyz *material.ambiend*ambientColor;
 
    FragColor=vec4((diffuse+anbient+speclar)*objColor,1.0);
 } 
