@@ -62,5 +62,8 @@
     <Image Include="container2_specular.png">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="emissive.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

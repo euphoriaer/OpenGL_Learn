@@ -64,6 +64,7 @@ int main()
     Material* material = new  Material(shader,
         LoadImageToGPU("container2.png", GL_RGBA, GL_RGBA, 1),
         LoadImageToGPU("container2_specular.png", GL_RGBA, GL_RGBA, 2),
+        LoadImageToGPU("emissive.jpg", GL_RGB, GL_RGB, 3),
         glm::vec3(1.0f, 1.0f, 1.0f),
         32.0f);
 
@@ -133,7 +134,6 @@ int main()
 
             //激活贴图
            
-           
             glUniformMatrix4fv(glGetUniformLocation(shader->ID, "modelMat"), 1, GL_FALSE, glm::value_ptr(modelMat));
             glUniformMatrix4fv(glGetUniformLocation(shader->ID, "viewMat"), 1, GL_FALSE, glm::value_ptr(viewMat));
             glUniformMatrix4fv(glGetUniformLocation(shader->ID, "projectMat"), 1, GL_FALSE, glm::value_ptr(projectMat));
@@ -143,9 +143,16 @@ int main()
             glUniform3f(glGetUniformLocation(shader->ID, "lightColor"),1.0f,1.0f,1.0f);
             glUniform3f(glGetUniformLocation(shader->ID, "cameraPos"), camera.Position.x,camera.Position.y,camera.Position.z);
 
+            auto cursin = sin(((float)glfwGetTime() + 1) * 0.1f + 1.0f);
+            std::cout << "输出当前sin值： " << cursin;
+
+            glUniform1f(glGetUniformLocation(shader->ID, "uvTime"),(float)glfwGetTime());
+            glUniform1f(glGetUniformLocation(shader->ID, "sinTime"), cursin);
+
             material->shader->SetUniform3f("material.ambiend", material->ambient);
-            material->shader->SetUniform1i("material.diffuse",1);
-            material->shader->SetUniform1i("material.specular",2);
+            material->shader->SetUniform1i("material.diffuse", material->diffuse);
+            material->shader->SetUniform1i("material.specular", material->specular);
+            material->shader->SetUniform1i("material.emissive",material->emissive);
             material->shader->SetUniform1f("material.shininess", material->shininess);
 
             //Set MOdel

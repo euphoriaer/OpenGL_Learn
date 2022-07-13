@@ -2,12 +2,14 @@
 in vec3 Normal;
 in vec3 FragPos;
 in vec2 Texcoord;
+in float Time;
 
 struct Material
 {
  vec3 ambiend;
  sampler2D diffuse;
  sampler2D specular;
+ sampler2D emissive;
  float shininess;
 };
 
@@ -35,5 +37,14 @@ void main()
 
    vec3 anbient=texture(material.diffuse,Texcoord).xyz *material.ambiend*ambientColor;
 
-   FragColor=vec4((diffuse+anbient+speclar)*objColor,1.0);
+   float  emissivePow=1.8f;
+   float  uvSpeed=0.1;
+
+   //uv流动
+   vec2 uv=vec2(Texcoord.x+Time,Texcoord.y+Time);
+   //vec3 emissive=texture(material.emissive,uv).xyz * pow(max(speclarAmount,0),emissivePow);
+   vec3 emissive=texture(material.emissive,uv).xyz * emissivePow;
+
+   FragColor=vec4((diffuse+anbient+speclar)*objColor+emissive,1.0);
+   //FragColor=vec4(emissive,1.0);
 } 
