@@ -7,7 +7,7 @@ struct Material
 {
  vec3 ambiend;
  sampler2D diffuse;
- vec3 specular;
+ sampler2D specular;
  float shininess;
 };
 
@@ -28,7 +28,7 @@ void main()
    
    float speclarAmount=dot(reflectVec,cameraVec);
 
-   vec3 speclar=material.specular * (pow(max(speclarAmount,0),material.shininess)) * lightColor;
+   vec3 speclar=texture(material.specular,Texcoord).xyz * (pow(max(speclarAmount,0),material.shininess)) * lightColor;
 
    vec3 diffuse=texture(material.diffuse,Texcoord).xyz * max(dot(lightDir,Normal),0 ) * lightColor;
    //vec3 diffuse=texture(material.diffuse,Texcoord).xyz;

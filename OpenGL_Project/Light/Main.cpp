@@ -25,7 +25,7 @@ unsigned   int LoadImageToGPU(const char* filename, GLint internalFormat, GLint 
     }
 
     stbi_image_free(data2);
-    return TexBuffer;
+    return textureSlot;
 }
 
 int main()
@@ -63,7 +63,7 @@ int main()
 
     Material* material = new  Material(shader,
         LoadImageToGPU("container2.png", GL_RGBA, GL_RGBA, 1),
-        glm::vec3(0, 1, 0),
+        LoadImageToGPU("container2_specular.png", GL_RGBA, GL_RGBA, 2),
         glm::vec3(1.0f, 1.0f, 1.0f),
         32.0f);
 
@@ -144,8 +144,8 @@ int main()
             glUniform3f(glGetUniformLocation(shader->ID, "cameraPos"), camera.Position.x,camera.Position.y,camera.Position.z);
 
             material->shader->SetUniform3f("material.ambiend", material->ambient);
-            material->shader->SetUniform1i("material.diffuse", material->diffuse);
-            material->shader->SetUniform3f("material.specular", material->specular);
+            material->shader->SetUniform1i("material.diffuse",1);
+            material->shader->SetUniform1i("material.specular",2);
             material->shader->SetUniform1f("material.shininess", material->shininess);
 
             //Set MOdel
