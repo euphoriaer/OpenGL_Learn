@@ -18,7 +18,8 @@ out float Time;
 void main()
 {
   
-   vec3 vertPos=vec3(aPos.xyz)*sinTime;
+   //vec3 vertPos=vec3(aPos.xyz)*sinTime;
+   vec3 vertPos=vec3(aPos.xyz);
    gl_Position = projectMat * viewMat * modelMat * vec4(vertPos, 1.0);//从左往右变换
  
    FragPos=(modelMat * vec4(aPos.xyz, 1.0)).xyz;

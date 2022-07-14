@@ -139,20 +139,21 @@ int main()
             glUniformMatrix4fv(glGetUniformLocation(shader->ID, "projectMat"), 1, GL_FALSE, glm::value_ptr(projectMat));
             glUniform3f(glGetUniformLocation(shader->ID, "objColor"), 1.0f, 1.0f, 1.0f);
             glUniform3f(glGetUniformLocation(shader->ID, "ambientColor"), 0.3f, 0.3f, 0.3f);
+
             glUniform3f(glGetUniformLocation(shader->ID, "lightPos"), 10.0f, 10.0f, -5.0f);
             glUniform3f(glGetUniformLocation(shader->ID, "lightColor"),1.0f,1.0f,1.0f);
+
             glUniform3f(glGetUniformLocation(shader->ID, "cameraPos"), camera.Position.x,camera.Position.y,camera.Position.z);
 
             auto cursin = sin(((float)glfwGetTime() + 1) * 0.1f + 1.0f);
-            std::cout << "输出当前sin值： " << cursin;
-
+            
             glUniform1f(glGetUniformLocation(shader->ID, "uvTime"),(float)glfwGetTime());
             glUniform1f(glGetUniformLocation(shader->ID, "sinTime"), cursin);
 
             material->shader->SetUniform3f("material.ambiend", material->ambient);
             material->shader->SetUniform1i("material.diffuse", material->diffuse);
             material->shader->SetUniform1i("material.specular", material->specular);
-            material->shader->SetUniform1i("material.emissive",material->emissive);
+            //material->shader->SetUniform1i("material.emissive",material->emissive);
             material->shader->SetUniform1f("material.shininess", material->shininess);
 
             //Set MOdel

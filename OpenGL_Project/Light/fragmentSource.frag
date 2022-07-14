@@ -42,6 +42,7 @@ void main()
 
    //uv流动
    vec2 uv=vec2(Texcoord.x+Time,Texcoord.y+Time);
+
    //vec3 emissive=texture(material.emissive,uv).xyz * pow(max(speclarAmount,0),emissivePow);
    vec3 emissive=texture(material.emissive,uv).xyz * emissivePow;
 
