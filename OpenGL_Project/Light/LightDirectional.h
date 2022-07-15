@@ -5,8 +5,18 @@
 class LightDirectional
 {
 public :
-    LightDirectional();
-    ~LightDirectional();
+    LightDirectional(glm::vec3 position,glm::vec3 angles,glm::vec3 color=glm::vec3(1.0f,1.0f,1.0f))
+    {
+        this->position = position;
+        this->color = color;
+        this->angles = angles;
+        UpdateDirection();
+
+    };
+    ~LightDirectional()
+    {
+
+    };
 
     glm::vec3 position;
     glm::vec3 color;

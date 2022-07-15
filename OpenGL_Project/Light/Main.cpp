@@ -3,6 +3,7 @@
 #include "main.h"
 #include "Camera.h"
 #include "Material.h"
+#include "LightDirectional.h"
 
 unsigned   int LoadImageToGPU(const char* filename, GLint internalFormat, GLint Format, int textureSlot)
 {
@@ -67,6 +68,10 @@ int main()
         LoadImageToGPU("emissive.jpg", GL_RGB, GL_RGB, 3),
         glm::vec3(1.0f, 1.0f, 1.0f),
         32.0f);
+    LightDirectional light = LightDirectional(
+        glm::vec3(10.0f, 10.0f, -5.0f), 
+        glm::vec3(glm::radians(-45.0f), glm::radians(-45.0f), 0)
+    );
 
 #pragma region Init and Load MOdels To VAO,VBO
     //VAO Vertex Array Object
@@ -140,8 +145,9 @@ int main()
             glUniform3f(glGetUniformLocation(shader->ID, "objColor"), 1.0f, 1.0f, 1.0f);
             glUniform3f(glGetUniformLocation(shader->ID, "ambientColor"), 0.3f, 0.3f, 0.3f);
 
-            glUniform3f(glGetUniformLocation(shader->ID, "lightPos"), 10.0f, 10.0f, -5.0f);
-            glUniform3f(glGetUniformLocation(shader->ID, "lightColor"),1.0f,1.0f,1.0f);
+            //glUniform3f(glGetUniformLocation(shader->ID, "lightPos"), light.position.x,light.position.y,light.position.z);
+            glUniform3f(glGetUniformLocation(shader->ID, "lightColor"), light.color.x, light.color.y ,light.color.z);
+            glUniform3f(glGetUniformLocation(shader->ID, "lightDir"), light.direction.x, light.direction.y ,light.direction.z);
 
             glUniform3f(glGetUniformLocation(shader->ID, "cameraPos"), camera.Position.x,camera.Position.y,camera.Position.z);
 
