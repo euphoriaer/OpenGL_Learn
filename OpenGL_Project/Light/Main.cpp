@@ -4,7 +4,8 @@
 #include "Camera.h"
 #include "Material.h"
 #include "LightDirectional.h"
-
+#include "LightPoint.h"
+#include "LIghtSpot.h"
 unsigned   int LoadImageToGPU(const char* filename, GLint internalFormat, GLint Format, int textureSlot)
 {
     unsigned int    TexBuffer;
@@ -68,9 +69,20 @@ int main()
         LoadImageToGPU("emissive.jpg", GL_RGB, GL_RGB, 3),
         glm::vec3(1.0f, 1.0f, 1.0f),
         32.0f);
-    LightDirectional light = LightDirectional(
+
+   /* LightDirectional light = LightDirectional(
         glm::vec3(10.0f, 10.0f, -5.0f), 
         glm::vec3(glm::radians(-45.0f), glm::radians(-45.0f), 0)
+    );*/
+
+   /* LightPoint light = LightPoint(
+        glm::vec3(10.0f, 10.0f, -5.0f),
+        glm::vec3(glm::radians(-45.0f), glm::radians(-45.0f), 0)
+    );*/
+
+    LIghtSpot light = LIghtSpot( 
+        glm::vec3(0.0f, 5.0f, 0.0f),
+        glm::vec3(glm::radians(-90.0f),0, 0)
     );
 
 #pragma region Init and Load MOdels To VAO,VBO
@@ -143,11 +155,17 @@ int main()
             glUniformMatrix4fv(glGetUniformLocation(shader->ID, "viewMat"), 1, GL_FALSE, glm::value_ptr(viewMat));
             glUniformMatrix4fv(glGetUniformLocation(shader->ID, "projectMat"), 1, GL_FALSE, glm::value_ptr(projectMat));
             glUniform3f(glGetUniformLocation(shader->ID, "objColor"), 1.0f, 1.0f, 1.0f);
-            glUniform3f(glGetUniformLocation(shader->ID, "ambientColor"), 0.3f, 0.3f, 0.3f);
+            glUniform3f(glGetUniformLocation(shader->ID, "ambientColor"), 0.1f, 0.1f, 0.1f);
 
-            //glUniform3f(glGetUniformLocation(shader->ID, "lightPos"), light.position.x,light.position.y,light.position.z);
+            glUniform3f(glGetUniformLocation(shader->ID, "lightPos"), light.position.x,light.position.y,light.position.z);
             glUniform3f(glGetUniformLocation(shader->ID, "lightColor"), light.color.x, light.color.y ,light.color.z);
-            glUniform3f(glGetUniformLocation(shader->ID, "lightDir"), light.direction.x, light.direction.y ,light.direction.z);
+            glUniform3f(glGetUniformLocation(shader->ID, "lightDirUniform"), light.direction.x, light.direction.y ,light.direction.z);
+            
+            /*glUniform1f(glGetUniformLocation(shader->ID, "lightP.constant"), light.constant);
+            glUniform1f(glGetUniformLocation(shader->ID, "lightP.linear"), light.linear);
+            glUniform1f(glGetUniformLocation(shader->ID, "lightP.quadratic"), light.quadratic);*/
+
+            glUniform1f(glGetUniformLocation(shader->ID, "lightS.cosPhy"), light.cosPhy);
 
             glUniform3f(glGetUniformLocation(shader->ID, "cameraPos"), camera.Position.x,camera.Position.y,camera.Position.z);
 

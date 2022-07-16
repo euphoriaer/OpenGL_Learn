@@ -4,6 +4,21 @@ in vec3 FragPos;
 in vec2 Texcoord;
 in float Time;
 
+
+struct LightPoint
+{
+float constant ;
+float linear ;
+float quadratic;
+
+};
+
+
+struct LightSpot
+{
+float cosPhy;
+};
+
 struct Material
 {
  vec3 ambiend;
@@ -14,18 +29,24 @@ struct Material
 };
 
 uniform Material material;
+uniform LightPoint lightP;
+uniform LightSpot lightS;
 
 uniform vec3 objColor;
 uniform vec3 ambientColor;
 uniform vec3 lightPos;
 uniform vec3 lightColor;
-uniform vec3 lightDir;
+uniform vec3 lightDirUniform;
 uniform vec3 cameraPos;
 
 out vec4 FragColor;
 void main() 
 {
-   //vec3 lightDir=normalize(lightPos-FragPos);
+
+   float dist=length(lightPos-FragPos);
+   float attenuation=1.0 / (lightP.constant+lightP.linear*dist+lightP.quadratic*(dist*dist));//点光源衰减
+
+   vec3 lightDir=normalize(lightPos-FragPos);
    vec3 reflectVec=reflect(-lightDir,Normal);
    vec3 cameraVec=normalize(cameraPos-FragPos);
    
@@ -38,15 +59,29 @@ void main()
 
    vec3 anbient=texture(material.diffuse,Texcoord).xyz *material.ambiend*ambientColor;
 
-   float  emissivePow=1.8f;
-   float  uvSpeed=0.1;
+   float cosTheta=dot(normalize(FragPos-lightPos),-lightDirUniform);
+   if(cosTheta>lightS.cosPhy)
+   {
+      //inside
+      FragColor=vec4((diffuse+(anbient+speclar))*objColor,1.0);
+   }else
+   {
+      FragColor=vec4((anbient)*objColor,1.0);
+     //outside
+   }
 
-   //uv流动
-   vec2 uv=vec2(Texcoord.x+Time,Texcoord.y+Time);
+   
+//自发光
 
-   //vec3 emissive=texture(material.emissive,uv).xyz * pow(max(speclarAmount,0),emissivePow);
-   vec3 emissive=texture(material.emissive,uv).xyz * emissivePow;
-
-   FragColor=vec4((diffuse+anbient+speclar)*objColor+emissive,1.0);
+//   float  emissivePow=1.8f;
+//   float  uvSpeed=0.1;
+//
+//   //uv流动
+//   vec2 uv=vec2(Texcoord.x+Time,Texcoord.y+Time);
+//
+//   //vec3 emissive=texture(material.emissive,uv).xyz * pow(max(speclarAmount,0),emissivePow);
+//   vec3 emissive=texture(material.emissive,uv).xyz * emissivePow;
+//
+//   FragColor=vec4((diffuse+(anbient+speclar))*attenuation*objColor+emissive,1.0);
    //FragColor=vec4(emissive,1.0);
 } 
