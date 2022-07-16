@@ -70,14 +70,18 @@ void main()
    }else  if(cosTheta>lightS.cosPhyOut)
    {
      //mid
-     spotRatio=1.0f-(cosTheta-lightS.cosPhyInner)/(lightS.cosPhyOut-lightS.cosPhyInner);
+     //cosTheta 判断当前片元处于聚光灯边缘哪个位置(判断与Inner距离，也可以判断与Out距离，cosTheta 一定处于两者之间)
+     //，根据Inner Out 范围光滑过度
+
+     //spotRatio=1.0f-(cosTheta-lightS.cosPhyInner)/(lightS.cosPhyOut-lightS.cosPhyInner);
+     spotRatio=(lightS.cosPhyOut-cosTheta)/(lightS.cosPhyOut-lightS.cosPhyInner);
    }
    else
    {
-     //outside
+     //outs
      spotRatio=0;
+     
    }
-
    FragColor=vec4((anbient+(diffuse+speclar)*spotRatio)*objColor,1.0);
 //自发光
 
