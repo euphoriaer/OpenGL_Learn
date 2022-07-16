@@ -61,24 +61,24 @@ void main()
    vec3 anbient=texture(material.diffuse,Texcoord).xyz *material.ambiend*ambientColor;
 
    float cosTheta=dot(normalize(FragPos-lightPos),-lightDirUniform);
+   float spotRatio;
    if(cosTheta>lightS.cosPhyInner)
    {
       //inside
-      FragColor=vec4((diffuse+(anbient+speclar)*1.0f)*objColor,1.0);
-
+      spotRatio=1.0f;
 
    }else  if(cosTheta>lightS.cosPhyOut)
    {
      //mid
-     FragColor=vec4((diffuse+(anbient+speclar)*0.5f)*objColor,1.0);
+     spotRatio=1.0f-(cosTheta-lightS.cosPhyInner)/(lightS.cosPhyOut-lightS.cosPhyInner);
    }
    else
    {
-      FragColor=vec4((diffuse+(anbient+speclar)*0.0f)*objColor,1.0);
      //outside
+     spotRatio=0;
    }
 
-   
+   FragColor=vec4((anbient+(diffuse+speclar)*spotRatio)*objColor,1.0);
 //自发光
 
 //   float  emissivePow=1.8f;
