@@ -165,7 +165,8 @@ int main()
             glUniform1f(glGetUniformLocation(shader->ID, "lightP.linear"), light.linear);
             glUniform1f(glGetUniformLocation(shader->ID, "lightP.quadratic"), light.quadratic);*/
 
-            glUniform1f(glGetUniformLocation(shader->ID, "lightS.cosPhy"), light.cosPhy);
+            glUniform1f(glGetUniformLocation(shader->ID, "lightS.cosPhyInner"), light.cosPhyInner);
+            glUniform1f(glGetUniformLocation(shader->ID, "lightS.cosPhyOut"), light.cosPhyOut);
 
             glUniform3f(glGetUniformLocation(shader->ID, "cameraPos"), camera.Position.x,camera.Position.y,camera.Position.z);
 

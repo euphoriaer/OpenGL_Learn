@@ -16,7 +16,8 @@ float quadratic;
 
 struct LightSpot
 {
-float cosPhy;
+float cosPhyInner;
+float cosPhyOut;
 };
 
 struct Material
@@ -60,13 +61,20 @@ void main()
    vec3 anbient=texture(material.diffuse,Texcoord).xyz *material.ambiend*ambientColor;
 
    float cosTheta=dot(normalize(FragPos-lightPos),-lightDirUniform);
-   if(cosTheta>lightS.cosPhy)
+   if(cosTheta>lightS.cosPhyInner)
    {
       //inside
-      FragColor=vec4((diffuse+(anbient+speclar))*objColor,1.0);
-   }else
+      FragColor=vec4((diffuse+(anbient+speclar)*1.0f)*objColor,1.0);
+
+
+   }else  if(cosTheta>lightS.cosPhyOut)
    {
-      FragColor=vec4((anbient)*objColor,1.0);
+     //mid
+     FragColor=vec4((diffuse+(anbient+speclar)*0.5f)*objColor,1.0);
+   }
+   else
+   {
+      FragColor=vec4((diffuse+(anbient+speclar)*0.0f)*objColor,1.0);
      //outside
    }
 

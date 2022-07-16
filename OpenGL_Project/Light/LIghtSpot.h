@@ -22,7 +22,8 @@ public:
     glm::vec3 angles;
     glm::vec3 direction = glm::vec3(0, 0, 1.0f);
 
-    float cosPhy=0.9f;
+    float cosPhyInner=0.9f;
+    float cosPhyOut =0.85f;
 
     void UpdateDirection()
     {
