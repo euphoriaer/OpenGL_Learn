@@ -6,6 +6,8 @@
 #include "LightDirectional.h"
 #include "LightPoint.h"
 #include "LIghtSpot.h"
+#include "Mesh.h"
+
 unsigned   int LoadImageToGPU(const char* filename, GLint internalFormat, GLint Format, int textureSlot)
 {
     unsigned int    TexBuffer;
@@ -87,27 +89,7 @@ int main()
 
 #pragma region Init and Load MOdels To VAO,VBO
     //VAO Vertex Array Object
-    unsigned	int	VAO;
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
-
-    //VBO Vertex Buffer Object
-    unsigned	int	VBO;
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);//BindData
-
-    ////位置属性 Gluint =》shader layout
-    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(3);//启用 顶点属性位置
-
-    //uv
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-    glEnableVertexAttribArray(2);
-
-    //Normal
-    glVertexAttribPointer(9, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(9);
+    Mesh cube(vertices);
 #pragma endregion
 
 #pragma region Init and Load Texture
@@ -139,7 +121,7 @@ int main()
         //更新view
         viewMat = camera.GetViewMatrix();
         //绘制多个物体
-        for (size_t i = 0; i < 10; i++)
+        for (size_t i = 0; i < 1; i++)
         {
             //Set Model matrix
             modelMat = glm::translate(glm::mat4(1.0f), cubePositions[i]);
@@ -183,11 +165,7 @@ int main()
             //material->shader->SetUniform1i("material.emissive",material->emissive);
             material->shader->SetUniform1f("material.shininess", material->shininess);
 
-            //Set MOdel
-            glBindVertexArray(VAO);
-            //Draw Call  ,Batch 优化,将所有顶点在外部变换，然后一次传入，只绘制一次减少DrawCall
-
-            glDrawArrays(GL_TRIANGLES, 0, 36);
+            cube.Draw(material->shader);
         }
         // Clean up, prepare for next render loop
         glfwSwapBuffers(window);
