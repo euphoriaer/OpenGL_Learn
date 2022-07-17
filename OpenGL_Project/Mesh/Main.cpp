@@ -7,7 +7,7 @@
 #include "LightPoint.h"
 #include "LIghtSpot.h"
 #include "Mesh.h"
-
+#include "Model.h"
 unsigned   int LoadImageToGPU(const char* filename, GLint internalFormat, GLint Format, int textureSlot)
 {
     unsigned int    TexBuffer;
@@ -34,6 +34,7 @@ unsigned   int LoadImageToGPU(const char* filename, GLint internalFormat, GLint 
 
 int main()
 {
+
 #pragma region Open a Window
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);//opengl版本
@@ -89,7 +90,8 @@ int main()
 
 #pragma region Init and Load MOdels To VAO,VBO
     //VAO Vertex Array Object
-    Mesh cube(vertices);
+   
+    Model model("C:\\C++Program\\OpenGL_Learn\\OpenGL_Project\\Mesh\\MeshModel\\nanosuit\\nanosuit.obj");
 #pragma endregion
 
 #pragma region Init and Load Texture
@@ -165,7 +167,7 @@ int main()
             //material->shader->SetUniform1i("material.emissive",material->emissive);
             material->shader->SetUniform1f("material.shininess", material->shininess);
 
-            cube.Draw(material->shader);
+            model.Draw(material->shader);
         }
         // Clean up, prepare for next render loop
         glfwSwapBuffers(window);
