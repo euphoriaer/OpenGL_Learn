@@ -138,9 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="LightDirectional.cpp" />
-    <ClCompile Include="LightPoint.cpp" />
-    <ClCompile Include="LIghtSpot.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Shader.cpp" />
