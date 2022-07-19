@@ -30,7 +30,7 @@ private:
     {
         Assimp::Importer impoter;
         const aiScene* scene = impoter.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
-        if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE)
+        if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE||!scene->mRootNode)
         {
             std::cout << "Assimp error" << std::endl;
             return;
@@ -62,7 +62,7 @@ private:
         std::vector<unsigned int> tempIndices;
         std::vector<Texture> tempTextures;
 
-        glm::vec3 tempVec;
+        glm::vec3 tempVertex;
         for (unsigned int i = 0; i < mesh->mNumVertices; i++)
         {
             Vertex tempVertex;

@@ -7,6 +7,7 @@ layout (location = 2) in vec2 uvTexcoord;
 uniform mat4 modelMat;
 uniform mat4 viewMat;
 uniform mat4 projectMat;
+
 uniform float uvTime;
 uniform float sinTime;
 
