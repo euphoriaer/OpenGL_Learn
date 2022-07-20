@@ -221,6 +221,7 @@ int main()
             //material->shader->SetUniform1i("material.emissive",material->emissive);
             material->shader->SetUniform1f("material.shininess", material->shininess);
 
+
             mesh.Draw(material->shader);
             //model.Draw(material->shader);
         }
