@@ -111,7 +111,7 @@ int main()
     //VAO Vertex Array Object
    
     Model model("C:\\C++Program\\OpenGL_Learn\\OpenGL_Project\\Mesh\\MeshModel\\nanosuit\\nanosuit.obj");
-    Mesh mesh(vertices);
+    //Mesh mesh(vertices);
 #pragma endregion
 
 #pragma region Init and Load Texture
@@ -222,8 +222,8 @@ int main()
             material->shader->SetUniform1f("material.shininess", material->shininess);
 
 
-            mesh.Draw(material->shader);
-            //model.Draw(material->shader);
+            //mesh.Draw(material->shader);
+            model.Draw(material->shader);
         }
         // Clean up, prepare for next render loop
         glfwSwapBuffers(window);
