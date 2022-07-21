@@ -13,6 +13,9 @@ public:
     {
         loadModel(path);
     };
+    ~Model()
+    {
+    };
     void Draw(Shader* shader)
     {
         for (unsigned int i = 0; i < meshes.size(); i++)
@@ -32,7 +35,7 @@ private:
             std::cout << "Assimp error" << std::endl;
             return;
         }
-        directory = path.substr(0, path.find_last_of('/'));
+        directory = path.substr(0, path.find_last_of('\\'));
 
         std::cout << "loadModel directory:  " << directory << std::endl;
         processNode(scene->mRootNode, scene);
@@ -52,34 +55,20 @@ private:
             processNode(node->mChildren[i], scene);
         }
     }
-    /*std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName)
-    {
-        std::vector<Texture> textures;
-        for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
-        {
-            aiString str;
-            mat->GetTexture(type, i, &str);
-            Texture texture;
-            texture.id = TextureFromFile(str.C_Str(), directory);
-            texture.type = typeName;
-            texture.path = str;
-            textures.push_back(texture);
-        }
-        return textures;
-    }*/
+    
     Mesh  processMesh(aiMesh* mesh, const aiScene* scene)
     {
         std::vector<Vertex> tempVertices;
         std::vector<unsigned int> tempIndices;
         std::vector<Texture> tempTextures;
 
-        glm::vec3 tempVertex;
         for (unsigned int i = 0; i < mesh->mNumVertices; i++)
         {
             Vertex tempVertex;
             tempVertex.Position.x = mesh->mVertices[i].x;
             tempVertex.Position.y = mesh->mVertices[i].y;
             tempVertex.Position.z = mesh->mVertices[i].z;
+            
 
             tempVertex.Normal.x = mesh->mNormals[i].x;
             tempVertex.Normal.y = mesh->mNormals[i].y;
@@ -107,16 +96,6 @@ private:
             }
 
         }
-
-        // 处理材质
-        /*if (mesh->mMaterialIndex >= 0)
-        {
-            aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-            std::vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
-            tempTextures.insert(tempTextures.end(), diffuseMaps.begin(), diffuseMaps.end());
-            std::vector<Texture> specularMaps = loadMaterialTextures(material,aiTextureType_SPECULAR, "texture_specular");
-            tempTextures.insert(tempTextures.end(), specularMaps.begin(), specularMaps.end());
-        }*/
 
         return Mesh(tempVertices,tempIndices,{});
     }
