@@ -1,6 +1,5 @@
 # OpenGL_Learn
-
-OpenGL 源文件
+OpenGL 学习源文件
 
 教程地址：
 https://learnopengl-cn.github.io/
