@@ -108,9 +108,9 @@ int main()
     );
 
 #pragma region Init and Load MOdels To VAO,VBO
-    //VAO Vertex Array Object
-   
-    Model model("C:\\C++Program\\OpenGL_Learn\\OpenGL_Project\\Mesh\\MeshModel\\nanosuit\\nanosuit.obj");
+    
+    //绝对路径 
+    Model model("C:\\C++Program\\OpenGL_Learn\\OpenGL_Project\\05.Mesh\\MeshModel\\nanosuit\\nanosuit.obj");
 #pragma endregion
 
 #pragma region Init and Load Texture

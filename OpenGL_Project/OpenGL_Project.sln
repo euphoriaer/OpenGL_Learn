@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "01.HelloWindows", "HelloWindows\HelloWindows.vcxproj", "{2B9FFDF2-B1F6-4360-988E-63CAD0F85C7A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "01.HelloWindows", "01.HelloWindows\HelloWindows.vcxproj", "{2B9FFDF2-B1F6-4360-988E-63CAD0F85C7A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "02.Shader", "Shader\Shader.vcxproj", "{F00C7C3A-C58C-4586-B2A7-1D3C2EE4E500}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "02.Shader", "02.Shader\Shader.vcxproj", "{F00C7C3A-C58C-4586-B2A7-1D3C2EE4E500}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "03.Texture", "Texture\Texture.vcxproj", "{8AE154BE-9D77-4A16-838F-A0DFA13F84FB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "03.Texture", "03.Texture\Texture.vcxproj", "{8AE154BE-9D77-4A16-838F-A0DFA13F84FB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "04.Light", "Light\Light.vcxproj", "{7B796197-444A-4F73-98B7-EB64A3C18BFF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "04.Light", "04.Light\Light.vcxproj", "{7B796197-444A-4F73-98B7-EB64A3C18BFF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mesh", "Mesh\Mesh.vcxproj", "{3CD0F731-28BE-4E82-8C57-75CA3A060EE5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mesh", "05.Mesh\Mesh.vcxproj", "{3CD0F731-28BE-4E82-8C57-75CA3A060EE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
