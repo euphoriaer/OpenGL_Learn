@@ -11,7 +11,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "03.Texture", "03.Texture\Te
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "04.Light", "04.Light\Light.vcxproj", "{7B796197-444A-4F73-98B7-EB64A3C18BFF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mesh", "05.Mesh\Mesh.vcxproj", "{3CD0F731-28BE-4E82-8C57-75CA3A060EE5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "05.Mesh", "05.Mesh\Mesh.vcxproj", "{3CD0F731-28BE-4E82-8C57-75CA3A060EE5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "06.Mesh_Texture", "06.Mesh_Texture\06.Mesh_Texture.vcxproj", "{D3955FBB-7F8E-409B-83C3-5AD2826107E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,14 @@ Global
 		{3CD0F731-28BE-4E82-8C57-75CA3A060EE5}.Release|x64.Build.0 = Release|x64
 		{3CD0F731-28BE-4E82-8C57-75CA3A060EE5}.Release|x86.ActiveCfg = Release|Win32
 		{3CD0F731-28BE-4E82-8C57-75CA3A060EE5}.Release|x86.Build.0 = Release|Win32
+		{D3955FBB-7F8E-409B-83C3-5AD2826107E5}.Debug|x64.ActiveCfg = Debug|x64
+		{D3955FBB-7F8E-409B-83C3-5AD2826107E5}.Debug|x64.Build.0 = Debug|x64
+		{D3955FBB-7F8E-409B-83C3-5AD2826107E5}.Debug|x86.ActiveCfg = Debug|Win32
+		{D3955FBB-7F8E-409B-83C3-5AD2826107E5}.Debug|x86.Build.0 = Debug|Win32
+		{D3955FBB-7F8E-409B-83C3-5AD2826107E5}.Release|x64.ActiveCfg = Release|x64
+		{D3955FBB-7F8E-409B-83C3-5AD2826107E5}.Release|x64.Build.0 = Release|x64
+		{D3955FBB-7F8E-409B-83C3-5AD2826107E5}.Release|x86.ActiveCfg = Release|Win32
+		{D3955FBB-7F8E-409B-83C3-5AD2826107E5}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
